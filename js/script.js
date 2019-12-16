@@ -1,4 +1,4 @@
-window.addEventListener("DOMContentLoaded", function() {
+window.addEventListener("DOMContentLoaded", function () {
   "use strict";
 
   //Tabs
@@ -22,7 +22,7 @@ window.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  info.addEventListener("click", function(evt) {
+  info.addEventListener("click", function (evt) {
     let target = evt.target;
     if (target && target.classList.contains("info-header-tab")) {
       for (let i = 0; i < tab.length; i++) {
@@ -63,26 +63,63 @@ window.addEventListener("DOMContentLoaded", function() {
       timeInterval = setInterval(updateClock, 1000);
 
     function updateClock() {
-			let t = getTimeRemaining(endtime);
-			
-			function addZeros(num){
-				if(num <= 9) {
-						return '0' + num;
-				} else return num;
-		};
+      let t = getTimeRemaining(endtime);
+
+      function addZeros(num) {
+        if (num <= 9) {
+          return '0' + num;
+        } else return num;
+      };
 
       hours.textContent = addZeros(t.hours);
       minutes.textContent = addZeros(t.minutes);
       seconds.textContent = addZeros(t.seconds);
 
       if (t.total <= 0) {
-				clearInterval(timeInterval);
-				hours.textContent = '00';
-				minutes.textContent = '00';
-				seconds.textContent = '00';
+        clearInterval(timeInterval);
+        hours.textContent = '00';
+        minutes.textContent = '00';
+        seconds.textContent = '00';
       }
     }
   }
 
   setClock("timer", deadLine);
+
+  // Modal window
+
+  let more = document.querySelector('.more'),
+    overlay = document.querySelector('.overlay'),
+    popClose = document.querySelector('.popup-close'),
+    descBtn = document.querySelectorAll('.description-btn');
+
+  more.addEventListener('click', function () {
+    overlay.style.display = 'block';
+    this.classList.add('more-splash');
+    document.body.style.overflow = 'hidden';
+  });
+
+  popClose.addEventListener('click', function () {
+    overlay.style.display = 'none';
+    more.classList.remove('more-splash');
+    document.body.style.overflow = '';
+  });
+
+  descBtn.forEach(function (item) {
+    item.addEventListener('click', () => {
+      overlay.style.display = 'block';
+      this.classList.add('more-splash');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  // for (let i = 0; i < descBtn.length; i++) {
+
+  //   descBtn[i].addEventListener('click', function () {
+  //     overlay.style.display = 'block';
+  //     this.classList.add('more-splash');
+  //     document.body.style.overflow = 'hidden';
+  //   });
+  // };
+
 });
