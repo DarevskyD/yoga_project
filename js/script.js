@@ -67,9 +67,9 @@ window.addEventListener("DOMContentLoaded", function () {
 
       function addZeros(num) {
         if (num <= 9) {
-          return '0' + num;
+          return "0" + num;
         } else return num;
-      };
+      }
 
       hours.textContent = addZeros(t.hours);
       minutes.textContent = addZeros(t.minutes);
@@ -77,9 +77,9 @@ window.addEventListener("DOMContentLoaded", function () {
 
       if (t.total <= 0) {
         clearInterval(timeInterval);
-        hours.textContent = '00';
-        minutes.textContent = '00';
-        seconds.textContent = '00';
+        hours.textContent = "00";
+        minutes.textContent = "00";
+        seconds.textContent = "00";
       }
     }
   }
@@ -88,28 +88,28 @@ window.addEventListener("DOMContentLoaded", function () {
 
   // Modal window
 
-  let more = document.querySelector('.more'),
-    overlay = document.querySelector('.overlay'),
-    popClose = document.querySelector('.popup-close'),
-    descBtn = document.querySelectorAll('.description-btn');
+  let more = document.querySelector(".more"),
+    overlay = document.querySelector(".overlay"),
+    popClose = document.querySelector(".popup-close"),
+    descBtn = document.querySelectorAll(".description-btn");
 
-  more.addEventListener('click', function () {
-    overlay.style.display = 'block';
-    this.classList.add('more-splash');
-    document.body.style.overflow = 'hidden';
+  more.addEventListener("click", function () {
+    overlay.style.display = "block";
+    this.classList.add("more-splash");
+    document.body.style.overflow = "hidden";
   });
 
-  popClose.addEventListener('click', function () {
-    overlay.style.display = 'none';
-    more.classList.remove('more-splash');
-    document.body.style.overflow = '';
+  popClose.addEventListener("click", function () {
+    overlay.style.display = "none";
+    more.classList.remove("more-splash");
+    document.body.style.overflow = "";
   });
 
   descBtn.forEach(function (item) {
-    item.addEventListener('click', () => {
-      overlay.style.display = 'block';
-      this.classList.add('more-splash');
-      document.body.style.overflow = 'hidden';
+    item.addEventListener("click", () => {
+      overlay.style.display = "block";
+      this.classList.add("more-splash");
+      document.body.style.overflow = "hidden";
     });
   });
 
@@ -122,4 +122,94 @@ window.addEventListener("DOMContentLoaded", function () {
   //   });
   // };
 
+  // Form
+
+  let message = {
+    loading: "Загрузка...",
+    success: "Спасибо! Скоро мы с вами свяжемся!",
+    failure: "Что-то пошло не так..."
+  };
+
+  let form = document.querySelector(".main-form"),
+    input = form.getElementsByTagName("input"),
+    statusMessage = document.createElement("div");
+
+  statusMessage.classList.add("status");
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    form.appendChild(statusMessage);
+
+    let request = new XMLHttpRequest();
+    request.open("POST", "server.php");
+    request.setRequestHeader(
+      "Content-Type",
+      "application/json",
+      "charset = utf-8"
+    );
+
+    let formData = new FormData(form);
+
+    let obj = {};
+    formData.forEach(function (value, key) {
+      obj[key] = value;
+    });
+
+    let json = JSON.stringify(obj);
+    request.send(json);
+
+    request.addEventListener("readystatechange", function () {
+      if (request.readyState < 4) {
+        statusMessage.innerHTML = message.loading;
+      } else if (request.readyState === 4 && request.status == 200) {
+        statusMessage.innerHTML = message.success;
+      } else {
+        statusMessage.innerHTML = message.failure;
+      }
+    });
+    for (let i = 0; i < input.length; i++) {
+      input[i].value = "";
+    }
+  });
+
+  // Contact-form
+
+  let contactForm = document.querySelector("#form"),
+    contactInput = contactForm.getElementsByTagName("input");
+
+  contactForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    contactForm.appendChild(statusMessage);
+
+    let request = new XMLHttpRequest();
+    request.open("POST", "server.php");
+    request.setRequestHeader(
+      "Content-Type",
+      "application/json",
+      "charset = utf-8"
+    );
+
+    let Data = new FormData(contactForm);
+
+    let obj = {};
+    Data.forEach(function (value, key) {
+      obj[key] = value;
+    });
+
+    let json = JSON.stringify(obj);
+    request.send(json);
+
+    request.addEventListener("readystatechange", function () {
+      if (request.readyState < 4) {
+        statusMessage.innerHTML = message.loading;
+      } else if (request.readyState === 4 && request.status == 200) {
+        statusMessage.innerHTML = message.success;
+      } else {
+        statusMessage.innerHTML = message.failure;
+      }
+    });
+    for (let i = 0; i < contactInput.length; i++) {
+      contactInput[i].value = '';
+    }
+  });
 });
