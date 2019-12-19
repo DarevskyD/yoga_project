@@ -1,4 +1,4 @@
-window.addEventListener("DOMContentLoaded", function () {
+window.addEventListener("DOMContentLoaded", function() {
   "use strict";
 
   //Tabs
@@ -22,7 +22,7 @@ window.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  info.addEventListener("click", function (evt) {
+  info.addEventListener("click", function(evt) {
     let target = evt.target;
     if (target && target.classList.contains("info-header-tab")) {
       for (let i = 0; i < tab.length; i++) {
@@ -93,19 +93,19 @@ window.addEventListener("DOMContentLoaded", function () {
     popClose = document.querySelector(".popup-close"),
     descBtn = document.querySelectorAll(".description-btn");
 
-  more.addEventListener("click", function () {
+  more.addEventListener("click", function() {
     overlay.style.display = "block";
     this.classList.add("more-splash");
     document.body.style.overflow = "hidden";
   });
 
-  popClose.addEventListener("click", function () {
+  popClose.addEventListener("click", function() {
     overlay.style.display = "none";
     more.classList.remove("more-splash");
     document.body.style.overflow = "";
   });
 
-  descBtn.forEach(function (item) {
+  descBtn.forEach(function(item) {
     item.addEventListener("click", () => {
       overlay.style.display = "block";
       this.classList.add("more-splash");
@@ -136,7 +136,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
   statusMessage.classList.add("status");
 
-  form.addEventListener("submit", function (event) {
+  form.addEventListener("submit", function(event) {
     event.preventDefault();
     form.appendChild(statusMessage);
 
@@ -151,14 +151,14 @@ window.addEventListener("DOMContentLoaded", function () {
     let formData = new FormData(form);
 
     let obj = {};
-    formData.forEach(function (value, key) {
+    formData.forEach(function(value, key) {
       obj[key] = value;
     });
 
     let json = JSON.stringify(obj);
     request.send(json);
 
-    request.addEventListener("readystatechange", function () {
+    request.addEventListener("readystatechange", function() {
       if (request.readyState < 4) {
         statusMessage.innerHTML = message.loading;
       } else if (request.readyState === 4 && request.status == 200) {
@@ -177,7 +177,7 @@ window.addEventListener("DOMContentLoaded", function () {
   let contactForm = document.querySelector("#form"),
     contactInput = contactForm.getElementsByTagName("input");
 
-  contactForm.addEventListener("submit", function (event) {
+  contactForm.addEventListener("submit", function(event) {
     event.preventDefault();
     contactForm.appendChild(statusMessage);
 
@@ -192,14 +192,14 @@ window.addEventListener("DOMContentLoaded", function () {
     let Data = new FormData(contactForm);
 
     let obj = {};
-    Data.forEach(function (value, key) {
+    Data.forEach(function(value, key) {
       obj[key] = value;
     });
 
     let json = JSON.stringify(obj);
     request.send(json);
 
-    request.addEventListener("readystatechange", function () {
+    request.addEventListener("readystatechange", function() {
       if (request.readyState < 4) {
         statusMessage.innerHTML = message.loading;
       } else if (request.readyState === 4 && request.status == 200) {
@@ -209,7 +209,7 @@ window.addEventListener("DOMContentLoaded", function () {
       }
     });
     for (let i = 0; i < contactInput.length; i++) {
-      contactInput[i].value = '';
+      contactInput[i].value = "";
     }
   });
 });
